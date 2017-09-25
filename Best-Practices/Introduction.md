@@ -10,7 +10,7 @@ This project has been created, in part, as a public place to continue those deba
 
 Remember that best practices are not hard-and-fast rules. We don't even consider them as solid as the style guide rules. They are the things you should _usually_ do as a starting point, and should deviate from when it's appropriate.
 
-One final note about these Best Practices: the perspective of these guidelines has so-far been strongly influenced by system administrator practitioners, less-so by language geeks and developers. We're trying to balance that and provide perspective, but when it comes to best practices, we definitely allow the experience of administrators to drive what the PowerShell community considers best and worst practices -- so if you are working from a different perspective, you'll have to take all of this with a grain of salt.
+One final note about these Best Practices: the perspective of these guidelines has so-far been strongly influenced by system administrator practitioners, less-so by language geeks and developers. We're trying to balance that and provide perspective, but when it comes to best practices, we definitely allow the experience of administrators to drive what the PowerShell community considers best and worst practices -- so if you are working from a different perspective, you'll have to take all of this with a grain of salt. 
 
 ## Table of Contents
 

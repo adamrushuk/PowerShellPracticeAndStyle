@@ -19,8 +19,8 @@ param (
 If you absolutely must pass a password in a plain string to a .Net API call or a third party library it is better to decrypt the credential as it is being passed instead of saving it in a variable.
 
 ```PowerShell
-    # Get the cleartext password for a method call:
-    $Insecure.SetPassword( $Credentials.GetNetworkCredential().Password )
+# Get the cleartext password for a method call:
+$insecure.SetPassword($Credentials.GetNetworkCredential().Password)
 ```
 
 #### Other Secure Strings
@@ -31,11 +31,10 @@ For other strings that may be sensitive, use the SecureString type to protect th
 Note, if you ever need to turn a SecureString into a string, you can use this method, but make sure to call ZeroFreeBSTR to avoid a memory leak:
 
 ```PowerShell
-    # Decrypt a secure string.
-    $BSTR = [System.Runtime.InteropServices.marshal]::SecureStringToBSTR($this);
-    $plaintext = [System.Runtime.InteropServices.marshal]::PtrToStringAuto($BSTR);
-    [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($BSTR);
-    return $plaintext
+# Decrypt a secure string.
+$bstr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureStringPassword)
+$plainTextPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($bstr)
+return $plainTextPassword
 ```
 
 * For credentials that need to be saved to disk, serialize the credential object using
@@ -44,23 +43,23 @@ string and will only be accessible to the user who generated the file on the sam
 computer where it was generated.
 
 ```PowerShell
-    # Save a credential to disk
-    Get-Credential | Export-CliXml -Path c:\creds\credential.xml
+# Save a credential to disk
+Get-Credential | Export-CliXml -Path c:\creds\credential.xml
 
-    # Import the previously saved credential
-    $Credential = Import-CliXml -Path c:\creds\credential.xml
+# Import the previously saved credential
+$credential = Import-CliXml -Path c:\creds\credential.xml
 ```
 
 * For strings that may be sensitive and need to be saved to disk, use ConvertFrom-SecureString to encrypt it into a standard string that can be saved to disk. You can then use ConvertTo-SecureString to convert the encrypted standard string back into a SecureString. NOTE: These commands use the Windows Data Protection API (DPAPI) to encrypt the data, so the encrypted strings can only be decrypted by the same user on the same machine, but there is an option to use AES with a shared key.
 
 ```PowerShell
-    # Prompt for a Secure String (in automation, just accept it as a parameter)
-    $Secure = Read-Host -Prompt "Enter the Secure String" -AsSecureString
+# Prompt for a Secure String (in automation, just accept it as a parameter)
+$secure = Read-Host -Prompt "Enter the Secure String" -AsSecureString
 
-    # Encrypt to Standard String and store on disk
-    ConvertFrom-SecureString -SecureString $Secure | Out-File -Path "${Env:AppData}\Sec.bin"
+# Encrypt to Standard String and store on disk
+ConvertFrom-SecureString -SecureString $secure | Out-File -Path "${env:APPDATA}\Sec.bin"
 
-    # Read the Standard String from disk and convert to a SecureString
-    $Secure = Get-Content -Path "${Env:AppData}\Sec.bin" | ConvertTo-SecureString
+# Read the Standard String from disk and convert to a SecureString
+$secure = Get-Content -Path "${env:APPDATA}\Sec.bin" | ConvertTo-SecureString
 ```
 

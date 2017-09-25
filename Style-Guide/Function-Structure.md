@@ -15,9 +15,9 @@ function MyFunction ($param1, $param2) {
 For Advanced Functions and scripts use the format of **<verb-<noun>** for
   naming. For a list of approved verbs the cmdlet `Get-Verb` will list
   them. On the noun side it can be composed of more than one joined word
-  using Camel Case and only singular nouns.
+  using Pascal Case and only singular nouns.
 
-In Advanced Functions do not use the keyword `return` to return an object.
+Do not use the keyword `return` to return an object but instead just place the object variable on its own.
 
 In Advanced Functions you return objects inside the `Process {}` block 
    and not in `Begin {}` or `End {}` since it defeats the advantage of the pipeline.
@@ -26,55 +26,52 @@ In Advanced Functions you return objects inside the `Process {}` block
 # Bad
 function Get-USCitizenCapability {
     [CmdletBinding()]
-    [OutputType([psobject])]
+    [OutputType([PSObject])]
     param (
-        [Parameter(Mandatory=$true,
-                   ValueFromPipelineByPropertyName=$true,
-                   Position=0)]
-        [int16]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, Position = 0)]
+        [Int16]
         $Age
     )
     process {
-        $Capabilities = @{
+        $capabilities = @{
             MilitaryService = $false
-            DrinkAlcohol = $false
-            Vote = $false
+            DrinkAlcohol    = $false
+            Vote            = $false
         }
-        if ($Age -ge 18)
-        {
-            $Capabilities['MilitaryService'] = $true
-            $Capabilities['Vote'] = $true
+        if ($Age -ge 18) {
+            $capabilities['MilitaryService'] = $true
+            $capabilities['Vote'] = $true
         }
-
-        $Obj = New-Object -Property $Capabilities -TypeName psobject
+        # Assigning the object to a variable defeats the purpose of the pipeline
+        $obj = [PSCustomObject] $capabilities
     }
-    end { return $Obj }
+    end { 
+        # This will only return the last object and thus defeats purpose of the pipeline
+        return $obj 
+    }
 }
-  
 # Good
 function Get-USCitizenCapability {
     [CmdletBinding()]
-    [OutputType([psobject])]
+    [OutputType([PSCustomObject])]
     param (
-        [Parameter(Mandatory=$true,
-                   ValueFromPipelineByPropertyName=$true,
-                   Position=0)]
-        [int16]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, Position = 0)]
+        [Int16]
         $Age
     )
     process {
-        $Capabilities = @{
+        $capabilities = @{
             MilitaryService = $false
-            DrinkAlcohol = $false
-            Vote = $false
+            DrinkAlcohol    = $false
+            Vote            = $false
         }
 
         if ($Age -ge 18) {
-            $Capabilities['MilitaryService'] = $true
-            $Capabilities['Vote'] = $true
+            $capabilities['MilitaryService'] = $true
+            $capabilities['Vote'] = $true
         }
 
-        New-Object -Property $Capabilities -TypeName psobject
+        [PSCustomObject]$capabilities
     }
 }
 ```
@@ -88,23 +85,23 @@ function Get-USCitizenCapability {
 If the function returns different object types depending on the parameter set provide one per parameter set.
 
 ```PowerShell
-[OutputType([<TypeLiteral>], ParameterSetName="<Name>")]
-[OutputType("<TypeNameString>", ParameterSetName="<Name>")]
+[OutputType([<TypeLiteral>], ParameterSetName = "<Name>")]
+[OutputType("<TypeNameString>", ParameterSetName = "<Name>")]
 ```
 
 #### When a ParameterSetName is used in any of the parameters, always provide a DefaultParameterSetName in the CmdletBinding attribute.
 
 ```PowerShell
 function Get-User {
-    [CmdletBinding(DefaultParameterSetName="ID")]
-    [OutputType("System.Int32", ParameterSetName="ID")]
-    [OutputType([String], ParameterSetName="Name")]
+    [CmdletBinding(DefaultParameterSetName = "ID")]
+    [OutputType("System.Int32", ParameterSetName = "ID")]
+    [OutputType([String], ParameterSetName = "Name")]
     param (      
-        [parameter(Mandatory=$true, ParameterSetName="ID")]
+        [Parameter(Mandatory = $true, ParameterSetName = "ID")]
         [Int[]]
         $UserID,
 
-        [parameter(Mandatory=$true, ParameterSetName="Name")]
+        [Parameter(Mandatory=$true, ParameterSetName = "Name")]
         [String[]]
         $UserName
     )     
@@ -120,7 +117,7 @@ function Get-User {
 
   ```PowerShell
   param (
-      [Parameter(Mandatory=$true)]
+      [Parameter(Mandatory = $true)]
       [AllowNull()]
       [String]
       $ComputerName
@@ -133,7 +130,7 @@ function Get-User {
 
   ```PowerShell
   param (
-      [Parameter(Mandatory=$true)]
+      [Parameter(Mandatory = $true)]
       [AllowEmptyString()]
       [String]
       $ComputerName
@@ -146,7 +143,7 @@ function Get-User {
 
   ```PowerShell
   param (
-      [Parameter(Mandatory=$true)]
+      [Parameter(Mandatory = $true)]
       [AllowEmptyCollection()]
       [String[]]
       $ComputerName
@@ -162,8 +159,8 @@ function Get-User {
 
   ```PowerShell
   param (
-      [Parameter(Mandatory=$true)]
-      [ValidateCount(1,5)]
+      [Parameter(Mandatory = $true)]
+      [ValidateCount(1, 5)]
       [String[]]
       $ComputerName
   ) 
@@ -178,8 +175,8 @@ function Get-User {
 
   ```PowerShell
   param (
-      [Parameter(Mandatory=$true)]
-      [ValidateLength(1,10)]
+      [Parameter(Mandatory = $true)]
+      [ValidateLength(1, 10)]
       [String[]]
       $ComputerName
   ) 
@@ -193,7 +190,7 @@ function Get-User {
   pattern. 
   ```PowerShell
   param (
-      [Parameter(Mandatory=$true)]
+      [Parameter(Mandatory = $true)]
       [ValidatePattern("[0-9][0-9][0-9][0-9]")]
       [String[]]
       $ComputerName
@@ -207,7 +204,7 @@ function Get-User {
   if any value is outside that range. 
   ```PowerShell
   param (
-      [Parameter(Mandatory=$true)]
+      [Parameter(Mandatory = $true)]
       [ValidateRange(0,10)]
       [Int]
       $Attempts
@@ -228,7 +225,7 @@ function Get-User {
   ```PowerShell
   param (
       [Parameter()]
-      [ValidateScript({$_ -ge (get-date)})]
+      [ValidateScript({$_ -ge (Get-Date)})]
       [DateTime]
       $EventDate
   ) 
@@ -244,7 +241,7 @@ function Get-User {
 
   ```PowerShell
   param (
-      [Parameter(Mandatory=$true)]
+      [Parameter(Mandatory = $true)]
       [ValidateSet("Low", "Average", "High")]
       [String[]]
       $Detail
@@ -265,7 +262,7 @@ function Get-User {
   match the specified type.)  
   ```PowerShell
   param (
-      [Parameter(Mandatory=$true)]
+      [Parameter(Mandatory = $true)]
       [ValidateNotNull()]
       $ID
   ) 
@@ -280,7 +277,7 @@ function Get-User {
   array.   
   ```PowerShell
   param (
-      [Parameter(Mandatory=$true)]
+      [Parameter(Mandatory = $true)]
       [ValidateNotNullOrEmpty()]
       [String[]]
       $UserName

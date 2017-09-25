@@ -2,20 +2,18 @@
 
 For this discussion, it's important to have some agreed-upon terminology. While the terminology here isn't used universally, the community generally agrees that several types of "script" exist:
 
-1. Some scripts contain tools, when are meant to be reusable. These are typically functions or advanced functions, and they are typically contained in a script module or in a function library of some kind. These tools are designed for a high level of re-use.
-2. Some scripts are controllers, meaning they are intended to utilize one or more tools (functions, commands, etc) to automate a specific business process. A script is not intended to be reusable; it is intended to make use of reuse by leveraging functions and other commands
 
-For example, you might write a "New-CorpUser" script, which provisions new users. In it, you might call numerous commands and functions to create a user account, mailbox-enable them, provision a home folder, and so on. Those discrete tasks might also be used in other processes, so you build them as functions. The script is only intended to automate that one process, and so it doesn't need to exhibit reusability concepts. It's a standalone thing.
+1. Some scripts contain tools, which are meant to be reusable. These are typically functions or advanced functions, and they are typically contained in a script module or in a function library of some kind. These tools are designed for a high level of re-use.
+2. Some scripts are controllers, meaning they are intended to utilise one or more tools (functions, commands etc.) to automate a specific business process. A script is not intended to be reusable; it is intended to make use of other functions and commands. 
 
-Controllers, on the other hand, often produce output directly to the screen (when designed for interactive use), or may log to a file (when designed to run unattended).
+For example, you might write a module that interfaces with a product's REST API and includes cmdlets for creating a new user, setting a user's permissions, configuring a user's dashboard etc. This module is reusable and falls into the first catagory described above. 
+
+If a new user is required to be configured on the system, you might write a controller script that utilises the module's cmdlets and adds additional business logic. This script has a specific purpose and falls into the second catagory above.
 
 
 # TOOL-02 Make your code modular
 
-Generally, people tend to feel that most working code - that is, your code which does things - should be modularized into functions and ideally stored in script modules.
-
-That makes those functions more easily re-used. Those functions should exhibit a high level of reusability, such as accepting input only via parameters and producing output only as objects to the pipeline
-
+Generally, people tend to feel that most working code - that is, your code which does things - should be modularized into functions and ideally stored in script modules which makes any functions easily reusable. 
 
 # TOOL-03 Make tools as re-usable as possible
 
@@ -29,7 +27,7 @@ You can get a list of the verbs by typing 'get-verb' at the command line.
 
 # TOOL-05 Use PowerShell standard parameter naming 
 
-Tools should be consistent with PowerShell native cmdlets in regards parameter naming.
+Tools should be consistent with PowerShell native cmdlets in regards to parameter naming.
 
 For example, use $ComputerName and $ServerInstance rather than something like $Param_Computer or $InstanceName
 
@@ -53,8 +51,9 @@ There are a number of approaches in PowerShell that will "get the job done." In 
 For example:
 
 ```PowerShell
-function Ping-Computer ($computername) {
-    $ping = Get-WmiObject Win32_PingStatus -filter "Address='$computername'"
+# Bad
+function Ping-Computer ($computerName) {
+    $ping = Get-WmiObject Win32_PingStatus -filter "Address='$computerName'"
     if ($ping.StatusCode -eq 0) {
         return $true
     } else {
@@ -68,7 +67,7 @@ This function has a few opportunities for enhancement. First of all, the paramet
 Thirdly, there's little reason to write this function in PowerShell v2 or later. PowerShell v2 has a built-in command that will allow you to perform a similar function. Simply use:
 
 ```PowerShell
-Test-Connection $computername -Quiet
+Test-Connection $computerName -Quiet
 ```
 
 This built-in command accomplishes the exact same task with less work on your part - e.g., you don't have to write your own function.

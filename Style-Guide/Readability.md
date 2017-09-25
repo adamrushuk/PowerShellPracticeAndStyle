@@ -6,7 +6,7 @@ Consider this code example:
 
 ```PowerShell
 if ($this -gt $that) {
-    Do-Something -with $that
+    Do-Something -With $that
 }
 ```
 
@@ -15,7 +15,7 @@ And now consider this one:
 ```PowerShell
 if ($this -gt $that)
 {
-    Do-Something -with $that
+    Do-Something -With $that
 }
 ```
 
@@ -26,7 +26,7 @@ Continuing in that vein, understand that the following are basically guidelines 
 First, format your code properly. The convention is to indent within constructs, to make it clearer what "belongs to" the construct.
 
 ```PowerShell
-ForEach ($computer in $computers) {
+foreach ($computer in $computers) {
     Do-This
     Get-Those
 }

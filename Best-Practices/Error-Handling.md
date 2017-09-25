@@ -2,9 +2,9 @@
 
 When trapping an error, try to use -ErrorAction Stop on cmdlets to generate terminating, trappable exceptions.
 
-# ERR-02 Use $ErrorActionPreference='Stop' or 'Continue' when calling non-cmdlets
+# ERR-02 Use $ErrorActionPreference ='Stop' or 'Continue' when calling non-cmdlets
 
-When executing something other than a cmdlet, set $ErrorActionPreference='Stop' before executing, and re-set to Continue afterwards. If you're concerned about using -ErrorAction because it will bail on the entire pipeline, then you've probably over-constructed the pipeline. Consider using a more scripting-construct-style approach, because those approaches are inherently better for automated error handling.
+When executing something other than a cmdlet, set $ErrorActionPreference ='Stop' before executing, and re-set to Continue afterwards. If you're concerned about using -ErrorAction because it will bail on the entire pipeline, then you've probably over-constructed the pipeline. Consider using a more scripting-construct-style approach, because those approaches are inherently better for automated error handling.
 
 Ideally, whatever command or code you think might bomb should be dealing with one thing: querying one computer, deleting one file, updating one user. That way, if an error occurs, you can handle it and then get on with the next thing.
 
@@ -13,10 +13,12 @@ Ideally, whatever command or code you think might bomb should be dealing with on
 Try to avoid setting flags:
 
 ```PowerShell
+# Bad
 try {
     $continue = $true
     Do-Something -ErrorAction Stop
-} catch {
+} 
+catch {
     $continue = $false
 }
 
@@ -30,12 +32,14 @@ if ($continue) {
 Instead, put the entire "transaction" into the Try block:
 
 ```PowerShell
+# Good
 try {
     Do-Something -ErrorAction Stop
     Do-This
     Set-That
     Get-Those
-} catch {
+} 
+catch {
     Handle-Error
 }
 ```
@@ -51,12 +55,14 @@ When you need to examine the error that occurred, try to avoid using $?. It actu
 
 Also try to avoid testing for a null variable as an error condition:
 
-```
+```PowerShell
+# Bad
 $user = Get-ADUser -Identity DonJ
 
 if ($user) {
     $user | Do-Something
-} else {
+} 
+else {
     Write-Warning "Could not get user $user"
 }
 ```

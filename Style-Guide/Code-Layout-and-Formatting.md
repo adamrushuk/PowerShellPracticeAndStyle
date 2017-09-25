@@ -25,21 +25,21 @@ PowerShell uses PascalCase for _all_ public identifiers: module names, function 
 
 PowerShell language keywords are written in lower case (yes, even `foreach` and `dynamicparam`), as well as operators such as `-eq` and `-match`. The keywords in comment-based help are written in UPPERCASE to make it easy to spot them among the dense prose of documentation.
 
-```posh
+```PowerShell
 function Write-Host {
     <#
     .SYNOPSIS
-    Writes customized output to a host.
+        Writes customized output to a host.
     .DESCRIPTION
-    The Write-Host cmdlet customizes output. You can specify the color of text by using
-    the ForegroundColor parameter, and you can specify the background color by using the
-    BackgroundColor parameter. The Separator parameter lets you specify a string to use to
-    separate displayed objects. The particular result depends on the program that is
-    hosting Windows PowerShell.
+        The Write-Host cmdlet customizes output. You can specify the color of text by using
+        the ForegroundColor parameter, and you can specify the background color by using the
+        BackgroundColor parameter. The Separator parameter lets you specify a string to use to
+        separate displayed objects. The particular result depends on the program that is
+        hosting Windows PowerShell.
     #>
     [CmdletBinding()]
-    param(
-        [Parameter(Position=0, ValueFromPipeline=$true, ValueFromRemainingArguments=$true)]
+    param (
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromRemainingArguments = $true)]
         [PSObject]
         $Object,
 
@@ -55,12 +55,11 @@ function Write-Host {
         [System.ConsoleColor]
         $BackgroundColor
     )
-    begin
-    {
+    begin {
     ...
 ```
 
-PowerShell uses PascalCase for _all_ public identifiers: module names, function or cmdlet names, class and enum names, public fields or properties, global variables and constants, etc. In fact, since the _parameters_ to PowerShell commands are actually _properties_ of .Net classes, even parameters use PascalCase rather than camelCase. Function names should follow PowerShell's `Verb-Noun` naming conventions, using PascalCase within both Verb and Noun.
+Function names should follow PowerShell's `Verb-Noun` naming conventions, using PascalCase within both Verb and Noun.
 
 A special case is made for two-letter acronyms in which both letters are capitalized, as in the variable `$PSBoundParameters` or the command `Get-PSDrive`. Note that ([as specified in the .NET guidelines](https://msdn.microsoft.com/en-us/library/ms229043#Anchor_1)) this does not affect the commonly capitalized (but not acronym) words "OK" and "ID" . You should also not extend it to compound acronyms, such as when Azure's Resource Manager (RM) meets a Virtual Machine (VM) in `Start-AzureRmVM`...
 
@@ -73,10 +72,11 @@ If you wish, you may use camelCase for variables within your functions (or modul
 
 All of your scripts or functions should start life as something like this snippet:
 
-```
-[CmdletBinding()]param()
-process{}
-end{}
+```PowerShell
+[CmdletBinding()]
+param ()
+process {}
+end {}
 ```
 
 You can always delete or ignore one of the blocks (or add the `begin` block), add parameters and so on, but you should avoid writing scripts or functions without CmdletBinding, and you should always at least _consider_ making it take pipeline input.
@@ -102,24 +102,6 @@ This is what PowerShell ISE does and understands, and it's the default for most 
 
 The 4-space rule is optional for continuation lines. Hanging indents (when indenting a wrapped command which was too long) may be indented more than one indentation level, or may even be indented an odd number of spaces to line up with a method call or parameter block.
 
-```PowerShell
-
-# This is ok
-$MyObj.GetData(
-       $Param1,
-       $Param2,
-       $Param3,
-       $Param4
-    )
-
-# This is better
-$MyObj.GetData($Param1,
-               $Param2,
-               $Param3,
-               $Param4)
-```
-
-
 #### Maximum Line Length
 
 Limit lines to 115 characters when possible.
@@ -130,7 +112,7 @@ Most of us work on widescreen monitors these days, and there is little reason to
 
 The preferred way to avoid long lines is to use splatting (see [About Splatting](https://technet.microsoft.com/en-us/library/jj672955.aspx)) and PowerShell's implied line continuation inside parentheses, brackets, and braces -- these should always be used in preference to the backtick for line continuation when applicable, even for strings:
 
-```
+```PowerShell
 Write-Host ("This is an incredibly important, and extremely long message. " +
             "We cannot afford to leave any part of it out, nor do we want line-breaks in the output. " +
             "Using string concatenation let's us use short lines here, and still get a long line in the output")
@@ -142,7 +124,7 @@ Surround function and class definitions with two blank lines.
 
 Method definitions within a class are surrounded by a single blank line.
 
-Blank lines may be ommitted between a bunch of related one-liners (e.g. empty functions)
+Blank lines may be omitted between a bunch of related one-liners (e.g. empty functions)
 
 Additional blank lines may be used sparingly to separate groups of related functions, or within functions to indicate logical sections (e.g. before a block comment).
 
@@ -154,15 +136,15 @@ Lines should not have trailing whitespace. Extra spaces result in future edits w
 
 #### Spaces around parameters and operators
 
-You should use a single space around parameter names and operators, including comparison operators and math and assignment operators, even when the spaces are not necessary for PowerShell to correctly parse the code.
+You should use a single space around parameter names and operators, including comparison operators and maths and assignment operators, even when the spaces are not necessary for PowerShell to correctly parse the code.
 
 One notable exception is when using colons to pass values to switch parameters:
 
 ```PowerShell
-# Do not write:
-$variable=Get-Content $FilePath -Wai:($ReadCount-gt0) -First($ReadCount*5)
+# Bad
+$variable=Get-Content $FilePath -Wait:($ReadCount-gt0) -First($ReadCount*5)
 
-# Instead write:
+# Good
 $variable = Get-Content -Path $FilePath -Wait:($ReadCount -gt 0) -TotalCount ($ReadCount * 5)
 ```
 
@@ -174,22 +156,18 @@ Use a single space after commas and semicolons, and around pairs of curly braces
 
 Avoid extra spaces inside parenthesis or square braces.
 
-Nested expressions `$( ... )` and script blocks `{ ... }` should have a single space _inside_ them to make code stand out and be more readable.
-
-Nested expressions `$( ... )` and variable delimiters `${...}` inside strings do not need spaces _outside_, since that would become a part of the string.
-
 
 #### Avoid using semicolons (`;`) at the end of each line.
 
-PowerShell will not complain about extra semicolons, but they are unecessary, and get in the way when code is being edited or copy-pasted. They also result in extra do-nothing edits in source control when someone finally decides to delete them.
+PowerShell will not complain about extra semicolons, but they are unnecessary, and get in the way when code is being edited or copy-pasted. They also result in extra do-nothing edits in source control when someone finally decides to delete them.
 
-They are also unecessary when declaring hashtables if you are already putting each element on it's own line:
+They are also unnecessary when declaring hashtables if you are already putting each element on it's own line:
 
 ```PowerShell
 # This is the preferred way to declare a hashtable if it must go past one line:
 $Options = @{
-    Margin = 2
-    Padding = 2
+    Margin   = 2
+    Padding  = 2
     FontSize = 24
 }
 ```

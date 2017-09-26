@@ -23,7 +23,7 @@ Don't go overboard with comments. Unless your code is particularly obscure, don'
 
 Block comments generally apply to some or all of the code which follows them, and are indented to the same level as that code. Each line should start with a # and a single space.
 
-If the block is particularly long (as in the case of documentation text) it is recommended to use the `<# ... #>` block comment syntax, but you should place the comment characters on their own lines, and indent the comment:
+If the block is particularly long i.e. over two lines (as in the case of documentation text) it is recommended to use the `<# ... #>` block comment syntax, but you should place the comment characters on their own lines, and indent the comment:
 
 ```PowerShell
 # Requiring a space makes things legible and prevents confusion
@@ -103,8 +103,7 @@ function Test-Help {
         # Aliases: MP
         [Parameter(Mandatory = $true)]
         [Alias("MP")]
-        [String]
-        $MandatoryParameter
+        [String]$MandatoryParameter
     )
 
     <# code here ... #>
@@ -112,13 +111,13 @@ function Test-Help {
 ```
 
 
-
-
 ### DOC-01 Write comment-based help
 
 You should always write comment-based help in your scripts and functions.
 
-Comment-based help is formatted as follows:
+Comment-based help should be indented one level within the function. The comment headings should be inline
+with the comment block and the descriptive text should be indented a further level as shown below: 
+
 
 ```PowerShell
 function Get-Example {

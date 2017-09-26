@@ -16,14 +16,14 @@ Get-Service | Where Status -eq Running
 
 because of the way the two different syntaxes have to be processed under the hood.
 
-_Further information:_ You can get some detail on the differences between versions of Powershell by typing `help about\Windows\PowerShell\2.0` (or 3.0 or 4.0) in Powershell
+**Further information**: You can get some detail on the differences between versions of PowerShell by typing `Get-Help about_Windows_PowerShell_5.0`.
 
 # VER-02 Document the version of PowerShell the script was written for
 
 All that said, make sure you specify the version of PowerShell you wrote for by using an appropriate `#Requires` statement:
 
 ```PowerShell
-#Requires -version 3.0
+#Requires -Version 3.0
 ```
 
 The `#Requires` statement will prevent the script from running on the wrong version of PowerShell.
@@ -36,7 +36,7 @@ When working in an environment where there are multiple versions of PowerShell m
 #Requires -Version 2.0
 ```
 
-When a _module_ uses specific cmdlets or syntax that is only present on a specific minimum version of PowerShell in the module manifest ps1d file.
+When a module uses specific cmdlets or syntax that is only present on a specific minimum version of PowerShell, specify this in the module manifest .psd1 file.
 
 ```PowerShell
 PowerShellVersion = '3.0'

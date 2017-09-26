@@ -21,7 +21,7 @@ PowerShell is **not** case sensitive, but we follow capitalization conventions t
 * PascalCase - capitalize the first letter of each word
 * camelCase - capitalize the first letter of each word _except_ the first.
 
-PowerShell uses PascalCase for _all_ public identifiers: module names, function or cmdlet names, class, enum, and attribute names, public fields or properties, global variables and constants, etc. In fact, since the _parameters_ to PowerShell commands are actually _properties_ of .Net classes, even parameters use PascalCase rather than camelCase.
+PowerShell uses PascalCase for _all_ public identifiers: module names, function or cmdlet names, class, enum, and attribute names, public fields or properties, global variables and constants, etc. In fact, since the _parameters_ to PowerShell commands are actually _properties_ of .Net classes, even parameters use PascalCase rather than camelCase. As a general rule, if you're unsure of the casing of something, using the tab-complete functionality of a PowerShell console will format using the correct casing. 
 
 PowerShell language keywords are written in lower case (yes, even `foreach` and `dynamicparam`), as well as operators such as `-eq` and `-match`. The keywords in comment-based help are written in UPPERCASE to make it easy to spot them among the dense prose of documentation.
 
@@ -40,20 +40,15 @@ function Write-Host {
     [CmdletBinding()]
     param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromRemainingArguments = $true)]
-        [PSObject]
-        $Object,
+        [PSObject]$Object,
 
-        [Switch]
-        $NoNewline,
+        [Switch]$NoNewline,
 
-        [PSObject]
-        $Separator,
+        [PSObject]$Separator,
 
-        [System.ConsoleColor]
-        $ForegroundColor,
+        [System.ConsoleColor]$ForegroundColor,
 
-        [System.ConsoleColor]
-        $BackgroundColor
+        [System.ConsoleColor]$BackgroundColor
     )
     begin {
     ...

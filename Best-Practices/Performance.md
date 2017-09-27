@@ -1,4 +1,6 @@
-# PERF-01 If performance matters, test it
+# Performance
+
+## PERF-01 If performance matters, test it
 
 PowerShell comes equipped with 3.2 million performance quirks. Approximately.
 
@@ -11,7 +13,7 @@ Do-Something | Out-Null
 
 If you're aware of multiple techniques to accomplish something, and you're writing a production script that will be dealing with large data sets (meaning performance will become a cumulative factor), then test the performance using Measure-Command or some other tool.
 
-# PERF-02 Consider trade-offs between performance and readability
+## PERF-02 Consider trade-offs between performance and readability
 
 Performance is not the only reason you write a script. If a script is expected to deal with ten pieces of data, a 30% performance improvement will not add up to a lot of actual time. It's okay to use a slower-performing technique that is easier to read, understand, and maintain - although "easier" is a very subjective term. Of the two commands above, any given person might select either of them as being "easier" to understand or read.
 
@@ -61,9 +63,8 @@ while (-not Test-TextFile -Handle $handle) {
 }
 ```
 
-This example reverts back to a native PowerShell approach, using commands and parameters. The proposed commands (Open-TextFile, Test-TextFile, and Read-TextFile) are just wrappers around .NET Framework classes, such as the StreamReader class shown in the third example.
+This example reverts back to a native PowerShell approach, using commands and parameters. The proposed commands (`Open-TextFile`, `Test-TextFile`, and `Read-TextFile`) are just wrappers around .NET Framework classes, such as the StreamReader class shown in the third example.
 
 You will generally find that it is possible to conform with the community's general aesthetic preferences while still maintaining a good level of performance. Doing so may require more work - such as writing PowerShell wrapper commands around underlying .NET Framework classes. Most would argue that, for a tool that is intended for long-term use, the additional work is a worthwhile investment.
 
 The moral here is that both aesthetic and performance are important considerations, and without some work context, neither is inherently more important than the other. It is often possible, with the right technique, to satisfy both. As a general practice, you should avoid giving up on aesthetics solely because of performance concerns - when possible, make the effort to satisfy both performance and aesthetics.
-

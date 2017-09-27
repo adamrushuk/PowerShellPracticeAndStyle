@@ -1,4 +1,6 @@
-# VER-01 Write for the lowest version of PowerShell that you can
+# Language Interop and .NET
+
+## VER-01 Write for the lowest version of PowerShell that you can
 
 As a rule, write for the lowest PowerShell version that you can, especially with scripts that you plan to share with others. Doing so provides the broadest compatibility for other folks.
 
@@ -18,7 +20,7 @@ because of the way the two different syntaxes have to be processed under the hoo
 
 **Further information**: You can get some detail on the differences between versions of PowerShell by typing `Get-Help about_Windows_PowerShell_5.0`.
 
-# VER-02 Document the version of PowerShell the script was written for
+## VER-02 Document the version of PowerShell the script was written for
 
 All that said, make sure you specify the version of PowerShell you wrote for by using an appropriate `#Requires` statement:
 
@@ -41,4 +43,3 @@ When a module uses specific cmdlets or syntax that is only present on a specific
 ```PowerShell
 PowerShellVersion = '3.0'
 ```
-

@@ -2,7 +2,7 @@ These documents are in an extremely rough state, not suitable for inclusion in t
 
 - [Include Help](#include-help)
 
-### Include Help
+## Include Help
 
 Discuss: Add a blank line between comment based help and function declaration?
 Discuss: Minimum acceptable comment based help: Synopsis, Parameters, and an example for each parameter set (plus pipeline examples if you can contrive one)

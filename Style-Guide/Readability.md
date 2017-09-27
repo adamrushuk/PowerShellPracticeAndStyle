@@ -1,6 +1,8 @@
+# Readability
+
 TODO: This section should probably be merged to [Code Layout and Formatting](Code-Layout-and-Formatting.md), and based on the [#15](https://github.com/PoshCode/PowerShellPracticeAndStyle/issues/15), we should remove or rewrite the backticks section.
 
-# READ-01 Indent your code
+## READ-01 Indent your code
 
 Consider this code example:
 
@@ -21,7 +23,7 @@ if ($this -gt $that)
 
 Neither of these is better than the other. Ask 100 coders which they prefer and you'll get roughly half liking either one. Now, when you start dealing with commands that accept script blocks as parameters, things can get trickier because of the way PowerShell parses syntax. "Wrong" is wrong. With scripting constructs, like the two examples above, there's no functional difference.
 
-Continuing in that vein, understand that the following are basically guidelines from mass consensus; they're not hard-and-fast rules. That said, there are arguments in favor of these, and you should consider the arguments before dismissing these ideas.
+Continuing in that vein, understand that the following are basically guidelines from mass consensus; they're not hard-and-fast rules. That said, there are arguments in favour of these, and you should consider the arguments before dismissing these ideas.
 
 First, format your code properly. The convention is to indent within constructs, to make it clearer what "belongs to" the construct.
 
@@ -34,8 +36,7 @@ foreach ($computer in $computers) {
 
 You will probably be reviled if you don't format carefully.
 
-
-# READ-02 Avoid backticks
+## READ-02 Avoid backticks
 
 Consider this:
 
@@ -50,9 +51,9 @@ In general, the community feels you should avoid using those backticks as "line 
 Here's an alternative:
 
 ```PowerShell
-$GetWmiObjectParams = @{
-    Class = "Win32_LogicalDisk"
-    Filter = "DriveType=3"
+$getWmiObjectParams = @{
+    Class        = "Win32_LogicalDisk"
+    Filter       = "DriveType=3"
     ComputerName = "SERVER2"
 }
 Get-WmiObject @GetWmiObjectParams

@@ -1,7 +1,7 @@
-PowerShell Practice and Style Guide
-===================================
+# PowerShell Practice and Style Guide
 
 ## Introduction
+
 * [About this Guide](README.md)
 * [Contributing](CONTRIBUTING.md)
 

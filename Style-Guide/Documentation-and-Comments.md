@@ -1,4 +1,4 @@
-### Documentation and Comments
+# Documentation and Comments
 
 Comments that contradict the code are worse than no comments. Always make a priority of keeping the comments up-to-date when the code changes!
 
@@ -17,9 +17,9 @@ $Margin = $Margin + 2
 
 ```
 
-#### Block comments
+## Block comments
 
-Don't go overboard with comments. Unless your code is particularly obscure, don't precede each line with a comment -- doing so breaks up the code and makes it harder to read.  Instead, write a single block comment.
+Don't go overboard with comments. Unless your code is particularly obscure, don't precede each line with a comment - doing so breaks up the code and makes it harder to read.  Instead, write a single block comment.
 
 Block comments generally apply to some or all of the code which follows them, and are indented to the same level as that code. Each line should start with a # and a single space.
 
@@ -38,7 +38,7 @@ If the block is particularly long i.e. over two lines (as in the case of documen
     #>
 ```
 
-#### Inline comments
+## Inline comments
 
 Comments on the same line as a statement can be distracting, but when they don't state the obvious, and particularly when you have several short lines of code which need explaining, they can be useful.
 
@@ -52,7 +52,7 @@ $Options = @{
 }
 ```
 
-#### Documentation comments
+## Documentation comments
 
 Comment-based help should be written in simple language.
 
@@ -62,30 +62,31 @@ If you're writing in what is, for you, a foreign language, simpler words and sim
 
 Be complete, but be concise.
 
-##### Location
+### Location
 
-In order to ensure that the documentation stays with the function, documentation comments should be placed **inside** the function, rather than above. To make it harder to forget to update them when changing a function, you should keep them at the top of the function, rather than at the bottom.
+In order to ensure that the documentation stays with the function, comment-based help should be placed **inside** the function, rather than above. To make it harder to forget to update them when changing a function, you should keep them at the top of the function, rather than at the bottom.
 
-Of course, that's not to say that putting them elsewhere is wrong -- but this is easier to do, and harder to forget to update.
+Of course, that's not to say that putting them elsewhere is wrong - but this is easier to do, and harder to forget to update.
 
-##### Put Details in the Notes
+### Put Details in the Notes
 
-If you want to provide detailed explanations about how your tool works, use the `Notes` section for that.
+If you want to provide detailed explanations about how your tool works, use the `.NOTES` section for that.
 
-##### Describe The Function
+### Describe The Function
 
-Every script function command should have at least a short statement describing it's function. That is the `Synopsis`.
+Every script function command should have at least a short statement describing it's function. Use the `.SYNOPSIS` for that.
 
-##### Document Each Parameter
+### Document Each Parameter
 
-Each parameter should be documented. To make it easier to keep the comments synchronized with changes to the parameters, the parameter documentation comments may be _within_ the `param` block; directly above each parameter.
+Each parameter should be documented. To make it easier to keep the comments synchronized with changes to the parameters, the parameter documentation comments may also be _within_ the `param` block; directly above each parameter.
 
-It is also possible to write `.PARAMETER` statements with the rest of the comment-based help, but they will be less likely to be left un-updated if you put them closer to the actual code they document.
+It is also advisable to write `.PARAMETER` statements with the rest of the comment-based help.
 
-##### Provide Usage Examples
+### Provide Usage Examples
 
-Your help should always provide an example for each major use case. A 'usage example' is just an example of what you would type in to PowerShell to run the script - you can even cut and paste one from the command line while you're testing your function.
+Your help should always provide an example for each major use case. A "usage example" is just an example of what you would type in to PowerShell to run the script - you can even cut and paste one from the command line while you're testing your function.
 
+Separate the example's code and it's description with a single blank line as shown below.
 
 ```PowerShell
 function Test-Help {
@@ -110,14 +111,12 @@ function Test-Help {
 }
 ```
 
-
 ### DOC-01 Write comment-based help
 
 You should always write comment-based help in your scripts and functions.
 
 Comment-based help should be indented one level within the function. The comment headings should be inline
-with the comment block and the descriptive text should be indented a further level as shown below: 
-
+with the comment block and the descriptive text should be indented a further level as shown below:
 
 ```PowerShell
 function Get-Example {
@@ -145,8 +144,8 @@ function Get-Example {
     #>
 ```
 
-Comment-based help is displayed when the user types `help Get-Example` or `Get-Example -?`, etc.
+Comment-based help is displayed when the user types `Get-Help Get-Example`, `help Get-Example` or `Get-Example -?`, etc.
 
 Your help should be helpful. That is, if you've written a tool called `Get-LOBAppUser`, don't write help that merely says, "Gets LOB App Users." Duh.
 
-**Further information:** You can get more on the use of comment-based help by typing `help about_Comment_Based_Help` within Powershell.
+**Further information:** You can get more on the use of comment-based help by typing `Get-Help about_Comment_Based_Help` within Powershell.
